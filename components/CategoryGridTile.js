@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 10,
     overflow: "hidden",
+    elevation: 5,
   },
   container: {
     flex: 1,
@@ -44,7 +45,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 10,
     shadowOpacity: 0.26,
-    elevation: 3,
   },
   textContainer: {
     fontFamily: "open-sans-bold",
