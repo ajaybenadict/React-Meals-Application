@@ -1,23 +1,47 @@
 import React from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Button,
+  ScrollView,
+  Image,
+} from "react-native";
 import { MEALS } from "../data/dummy-data";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
+import DefaultText from "../components/DefaultText";
+
+const ListItem = (props) => {
+  return (
+    <View style={styles.listItem}>
+      <DefaultText>{props.children}</DefaultText>
+    </View>
+  );
+};
 
 const MealsDetailsScreen = (props) => {
   const mealIds = props.navigation.getParam("mealId");
 
   const displayMeals = MEALS.find((meal) => meal.id === mealIds);
   return (
-    <View style={styles.screen}>
-      <Text>{displayMeals.title}</Text>
-      <Button
-        title="Go to categories "
-        onPress={() => {
-          props.navigation.push("Categories");
-        }}
-      />
-    </View>
+    <ScrollView>
+      <Image source={{ uri: displayMeals.imageUrl }} style={styles.image} />
+      <View style={styles.details}>
+        <DefaultText>{displayMeals.duration}m</DefaultText>
+        <DefaultText>{displayMeals.complexity.toUpperCase()}</DefaultText>
+        <DefaultText>{displayMeals.affordability.toUpperCase()}</DefaultText>
+      </View>
+      <Text style={styles.title}>Ingredients</Text>
+      {displayMeals.ingredients.map((ingredient) => (
+        <ListItem key={ingredient}>{ingredient}</ListItem>
+      ))}
+
+      <Text style={styles.title}>Steps</Text>
+      {displayMeals.steps.map((step) => (
+        <ListItem key={step}>{step}</ListItem>
+      ))}
+    </ScrollView>
   );
 };
 
@@ -42,10 +66,27 @@ MealsDetailsScreen.navigationOptions = (navigationData) => {
   };
 };
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+  image: {},
+  details: {
+    flexDirection: "row",
+    padding: 10,
+    justifyContent: "space-around",
+  },
+  image: {
+    width: "100%",
+    height: 200,
+  },
+  title: {
+    fontFamily: "open-sans-bold",
+    textAlign: "center",
+    fontSize: 22,
+  },
+  listItem: {
+    marginVertical: 10,
+    marginHorizontal: 20,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    padding: 10,
   },
 });
 
